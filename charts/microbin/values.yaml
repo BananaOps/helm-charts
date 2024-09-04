@@ -1,0 +1,157 @@
+# Default values for microbin.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: danielszabo99/microbin
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "latest"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: false
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+rbac:
+  create: false
+  scope: false
+
+podAnnotations: {}
+
+podSecurityContext:
+  # fsGroup: 2000
+
+securityContext:
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  runAsNonRoot: false
+  #runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 8080
+  additionalLabels: {}
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: microbin.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources:
+  limits:
+    cpu: 250m
+    memory: 128Mi
+  requests:
+    cpu: 250m
+    memory: 128Mi
+
+
+# Configure Prometheus service scrapping with
+prometheus:
+  monitor:
+    enabled: false
+    additionalLabels: {}
+    relabelings: []
+    scrapeTimeout: 10s
+
+# Configure VictoiraMetrics service scrapping with
+victoriametrics:
+  monitor: 
+    enabled: false
+    additionalLabels: {}
+    relabelings: []
+    scrapeTimeout: 10s
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 2
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+persistence:
+    # -- Enable volume claims in pod spec
+    volumeClaimsEnabled: true
+    # -- Parameters used for the `data` volume when volumeClaimEnabled if false
+    dataVolumeParameters:
+      emptyDir: {}
+    # -- Enable StatefulSetAutoDeletePVC feature
+    enableStatefulSetAutoDeletePVC: true
+    # -- Size of persistent disk
+    size: 10Gi
+    # -- Storage class to be used.
+    # If defined, storageClassName: <storageClass>.
+    # If set to "-", storageClassName: "", which disables dynamic provisioning.
+    # If empty or set to null, no storageClassName spec is
+    # set, choosing the default provisioner (gp2 on AWS, standard on GKE, AWS, and OpenStack).
+    storageClass: gp3
+    # -- Selector for persistent disk
+    selector: null
+
+env: {}
+  #MICROBIN_BASIC_AUTH_USERNAME: ${MICROBIN_BASIC_AUTH_USERNAME}
+  #MICROBIN_BASIC_AUTH_PASSWORD: ${MICROBIN_BASIC_AUTH_PASSWORD}
+  #MICROBIN_ADMIN_USERNAME: ${MICROBIN_ADMIN_USERNAME}
+  #MICROBIN_ADMIN_PASSWORD: ${MICROBIN_ADMIN_PASSWORD}
+  #MICROBIN_EDITABLE: ${MICROBIN_EDITABLE}
+  #MICROBIN_FOOTER_TEXT: ${MICROBIN_FOOTER_TEXT}
+  #MICROBIN_HIDE_FOOTER: ${MICROBIN_HIDE_FOOTER}
+  #MICROBIN_HIDE_HEADER: ${MICROBIN_HIDE_HEADER}
+  #MICROBIN_HIDE_LOGO: ${MICROBIN_HIDE_LOGO}
+  #MICROBIN_NO_LISTING: ${MICROBIN_NO_LISTING}
+  #MICROBIN_HIGHLIGHTSYNTAX: ${MICROBIN_HIGHLIGHTSYNTAX}
+  #MICROBIN_PRIVATE: ${MICROBIN_PRIVATE}
+  #MICROBIN_PURE_HTML: ${MICROBIN_PURE_HTML}
+  #MICROBIN_DATA_DIR: ${MICROBIN_DATA_DIR}
+  #MICROBIN_JSON_DB: ${MICROBIN_JSON_DB}
+  #MICROBIN_PUBLIC_PATH: ${MICROBIN_PUBLIC_PATH}
+  #MICROBIN_SHORT_PATH: ${MICROBIN_SHORT_PATH}
+  #MICROBIN_READONLY: ${MICROBIN_READONLY}
+  #MICROBIN_SHOW_READ_STATS: ${MICROBIN_SHOW_READ_STATS}
+  #MICROBIN_TITLE: ${MICROBIN_TITLE}
+  #MICROBIN_THREADS: ${MICROBIN_THREADS}
+  #MICROBIN_GC_DAYS: ${MICROBIN_GC_DAYS}
+  #MICROBIN_ENABLE_BURN_AFTER: ${MICROBIN_ENABLE_BURN_AFTER}
+  #MICROBIN_DEFAULT_BURN_AFTER: ${MICROBIN_DEFAULT_BURN_AFTER}
+  #MICROBIN_WIDE: ${MICROBIN_WIDE}
+  #MICROBIN_QR: ${MICROBIN_QR}
+  #MICROBIN_ETERNAL_PASTA: ${MICROBIN_ETERNAL_PASTA}
+  #MICROBIN_ENABLE_READONLY: ${MICROBIN_ENABLE_READONLY}
+  #MICROBIN_DEFAULT_EXPIRY: ${MICROBIN_DEFAULT_EXPIRY}
+  #MICROBIN_NO_FILE_UPLOAD: ${MICROBIN_NO_FILE_UPLOAD}
+  #MICROBIN_CUSTOM_CSS: ${MICROBIN_CUSTOM_CSS}
+  #MICROBIN_HASH_IDS: ${MICROBIN_HASH_IDS}
+  #MICROBIN_ENCRYPTION_CLIENT_SIDE: ${MICROBIN_ENCRYPTION_CLIENT_SIDE}
+  #MICROBIN_ENCRYPTION_SERVER_SIDE: ${MICROBIN_ENCRYPTION_SERVER_SIDE}
+  #MICROBIN_MAX_FILE_SIZE_ENCRYPTED_MB: ${MICROBIN_MAX_FILE_SIZE_ENCRYPTED_MB}
+  #MICROBIN_MAX_FILE_SIZE_UNENCRYPTED_MB: ${MICROBIN_MAX_FILE_SIZE_UNENCRYPTED_MB}
